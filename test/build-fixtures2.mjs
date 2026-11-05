@@ -1,0 +1,225 @@
+// Respuestas reales de Wikidata y Discogs (capturadas el 5-11-2026), recortadas.
+// Genera test/fixtures2.json con la forma { nombre: { wd: [...filas], dg, works, worksTotal } }.
+import { writeFileSync } from 'node:fs';
+
+// wd: [mb, spotify, discogs, filas[ [prop, val, en, es, valMb] ]]
+const W = (mb, sp, dg, rows) => rows.map(([prop, val, en, es, valMb]) => ({ mb, ...(sp ? { sp } : {}), dg, prop: `wdt:${prop}`, val: val.startsWith('Q') ? `wd:${val}` : val, ...(en ? { en } : {}), ...(es ? { es } : {}), ...(valMb ? { valMb } : {}) }));
+const w = (t, y, l, s, g) => ({ t, y, l, s, g: [g] });
+const E = 'Electronic', R = 'Rock', J = 'Jazz', P = 'Pop';
+
+const fx = {
+  'Aphex Twin': {
+    wd: W('f22942a1-6f70-4f48-866e-238cb2308fbd', '6kBDZFXuLrZgHnvmPu9NsG', '45', [['P136', 'Q9149801', 'ambient techno'], ['P136', 'Q660984', 'intelligent dance music'], ['P264', 'Q543707', 'Warp', 'Warp Records', '46f0f4cd-8aab-4b33-b698-f459faf64190'], ['P264', 'Q1477543', 'Rephlex Records']]),
+    dg: { id: 45, name: 'Aphex Twin', urls: ['http://aphextwin.bandcamp.com', 'http://soundcloud.com/richarddjames'], members: [], groups: [], aliases: [[46, 'GAK'], [48, 'Caustic Window'], [599, 'Power-Pill'], [820, 'The Dice Man']] },
+    works: [
+      w('AFX* - Analord 11', '2005', ['Rephlex', 'Analord'], ['Abstract', 'Acid', 'Electro'], E),
+      w('AFX* - Chosen Lords', '2006', ['Rephlex', 'Key Production'], ['IDM', 'Electro', 'Acid'], E),
+      w('AFX* - Hangable Auto Bulb', '2005', ['Warp Records', 'Warp Records Limited'], ['IDM', 'Breakcore', 'Experimental'], E),
+      w('Aphex Twin - Drukqs 2 Track Promo', '2001', ['Warp Records', 'MPO'], ['IDM', 'Drum n Bass', 'Experimental'], E),
+      w('Aphex Twin - Cirklon3', '2016', ['Warp Records', 'Warp Records Limited'], ['Techno', 'IDM'], E),
+      w('Aphex Twin - Collapse EP', '2018', ['Warp Records', 'Warp Records Limited'], ['IDM', 'Acid', 'Techno', 'Ambient'], E),
+      w('Aphex Twin - 1992 Tapes', '2003', ['Not On Label (Aphex Twin)'], ['Techno', 'Acid'], E),
+      w('AFX* - Analogue Bubblebath Vol 4', '1994', ['Rephlex', 'Chrysalis Music'], ['Techno', 'Experimental', 'Acid'], E),
+      w('Aphex Twin - Blackbox Life Recorder 21f / In A Room7 F760', '2023', ['Warp Records', 'Warp Records Limited'], ['IDM', 'Acid', 'Glitch'], E),
+      w('Aphex Twin - Cheetah EP', '2016', ['Warp Records', 'Warp Records Limited'], ['Techno', 'IDM'], E),
+    ],
+    worksTotal: 85,
+  },
+  'Boards of Canada': {
+    wd: W('69158f97-4c07-4c4e-baf8-4e4ab1ed666e', '2VAvhf61GgLYmC6C8anyX1', '307', [['P136', 'Q9149801', 'ambient techno'], ['P136', 'Q1435509', 'folktronica', 'folktrónica'], ['P136', 'Q660984', 'intelligent dance music'], ['P264', 'Q543707', 'Warp', 'Warp Records', '46f0f4cd-8aab-4b33-b698-f459faf64190'], ['P264', 'Q475607', 'Skam Records', null, '5c5bc5b7-13a7-49c7-935c-4ec9686d9cae'], ['P136', 'Q251192', 'downtempo'], ['P740', 'Q23436', 'Edinburgh', 'Edimburgo'], ['P571', '1986-01-01T00:00:00Z']]),
+    dg: { id: 307, name: 'Boards Of Canada', urls: ['http://boardsofcanada.bandcamp.com'], members: [[430140, 'Michael Sandison'], [430141, 'Marcus Eoin'], [436767, 'Chris Horne']], groups: [], aliases: [[3603, 'Hell Interface']] },
+    works: [
+      w('Boards Of Canada - Reach For The Dead', '2013', ['Warp Records'], ['Ambient', 'IDM'], E),
+      w('Boards Of Canada - Old Tunes Vol. 2', '1996', ['Music70'], ['IDM', 'Downtempo'], E),
+      w('Boards Of Canada - Hi Scores', '1996', ['Skam', 'Skam Records'], ['Downtempo', 'Ambient'], E),
+      w('Boards Of Canada - Geogaddi', '2002', ['Warp Records', 'Music70'], ['Abstract', 'IDM', 'Ambient'], E),
+      w("Boards Of Canada - Tomorrow's Harvest", '2013', ['Warp Records', 'Music70'], ['Downtempo', 'Ambient', 'IDM'], E),
+      w('Boards Of Canada - Music Has The Right To Children', '1998', ['Warp Records', 'Skam'], ['IDM', 'Ambient', 'Trip Hop'], E),
+      w('Boards Of Canada - Trans Canada Highway', '2006', ['Warp Records', 'Music70'], ['IDM', 'Downtempo', 'Ambient'], E),
+      w('Boards Of Canada - A Few Old Tunes', '1996', ['Music70'], ['IDM', 'Downtempo', 'Leftfield'], E),
+    ],
+    worksTotal: 23,
+  },
+  'Basic Channel': {
+    wd: W('d145a57e-7afb-4793-8cc4-2fad292374ef', null, '13117', [['P136', 'Q1430587', 'minimal techno'], ['P740', 'Q64', 'Berlin', 'Berlín'], ['P571', '1993-01-01T00:00:00Z']]),
+    dg: { id: 13117, name: 'Basic Channel', urls: [], members: [[17111, 'Moritz von Oswald'], [456229, 'Mark Ernestus']], groups: [], aliases: [[579, 'Cyrus'], [979, 'Maurizio']] },
+    works: [
+      w('Basic Channel - Phylyps Trak II', '1994', ['Basic Channel', 'National Sound Corporation'], ['Dub Techno', 'Minimal Techno', 'Techno'], E),
+      w('Basic Channel - Quadrant Dub', '1994', ['Basic Channel', 'National Sound Corporation'], ['Dub Techno'], E),
+      w('Basic Channel - Q-Loop', '2014', ['Basic Channel', 'Dubplates & Mastering'], ['Dub Techno'], E),
+      w('Basic Channel - Radiance', '1994', ['Basic Channel', 'National Sound Corporation'], ['Dub Techno', 'Ambient', 'Minimal Techno'], E),
+      w('Basic Channel - BCD', '1995', ['Basic Channel', 'BCP'], ['Dub Techno'], E),
+    ],
+    worksTotal: 10,
+  },
+  'Moritz von Oswald': {
+    wd: W('48c4ea31-fe9d-4bbf-8a1c-a2996abcfb9f', null, '17111', [['P136', 'Q170611', 'techno'], ['P136', 'Q20502', 'house music', 'música house']]),
+    dg: { id: 17111, name: 'Moritz von Oswald', urls: [], members: [], groups: [[5137, 'Rhythm & Sound'], [13117, 'Basic Channel'], [979, 'Maurizio']], aliases: [] },
+    works: [
+      w('Moritz von Oswald - Silencio', '2023', ['Tresor', 'Dubplates & Mastering'], ['Ambient', 'Experimental'], E),
+      w('Moritz Von Oswald Trio - Horizontal Structures', '2011', ["Honest Jon's Records", 'Lime Street Studio'], ['Abstract', 'Dub Techno', 'Dub'], E),
+      w('Juan Atkins & Moritz von Oswald - Borderland', '2013', ['Tresor', 'Tresor Records'], ['Techno', 'Dub Techno'], E),
+      w('Carl Craig & Moritz von Oswald - ReComposed', '2008', ['Deutsche Grammophon', 'Universal Music Group'], ['Techno', 'Modern', 'Ambient'], E),
+    ],
+    worksTotal: 24,
+  },
+  Burial: {
+    wd: W('9ddce51c-2b75-4b3e-ac8c-1db09e7c89c6', '0uCCBpmg6MrPb1KY2msceF', '306157', [['P136', 'Q5510816', 'future garage'], ['P264', 'Q2994824', 'Hyperdub', null, 'd73fd0e0-8799-4506-ad1b-6342bf46fc77'], ['P136', 'Q20474', 'dubstep']]),
+    // MusicBrainz enlaza el perfil del nombre real; el alias "Burial" es el bueno
+    dg: { id: 306157, name: 'Burial', urls: ['https://burial.bandcamp.com'], members: [], groups: [], aliases: [[1975486, 'William Bevan']] },
+    real: { id: 1975486, name: 'William Bevan', aliases: [[306157, 'Burial']] },
+    works: [
+      w('Burial - Ghost Hardware', '2007', ['Hyperdub', 'Cargo'], ['UK Garage', 'Dubstep'], E),
+      w('Burial - Truant', '2012', ['Hyperdub', 'Optimal Media GmbH'], ['Bass Music', 'Experimental', 'Dubstep'], E),
+      w('Burial - South London Boroughs', '2005', ['Hyperdub', 'Transition Mastering Studios'], ['UK Garage', 'Dubstep', 'Broken Beat'], E),
+      w('Burial - Untrue', '2007', ['Hyperdub', 'Hyperdub Records'], ['Abstract', 'Dubstep', 'UK Garage', 'Ambient'], E),
+      w('Burial - Street Halo', '2011', ['Hyperdub', 'Transition Mastering Studios'], ['Ambient', 'UK Garage', 'House'], E),
+      w('Burial - Dreamfear / Boy Sent From Above', '2024', ['XL Recordings'], ['Breakbeat', 'Experimental'], E),
+      w('Burial - Temple Sleeper', '2015', ['Keysound Recordings', 'Transition Mastering Studios'], ['UK Garage', 'Breaks', 'Hardcore'], E),
+      w('Burial - Rival Dealer', '2013', ['Hyperdub', 'Transition Mastering Studios'], ['UK Garage', 'Ambient', 'Abstract'], E),
+      w('Burial (13) - Unholy Sedition', '2016', ['UKEM Records'], ['Black Metal'], R),
+      w('Burial (3) - Never Give Up... Never Give In', '2005', ['Deranged Records'], ['Hardcore', 'Punk'], R),
+      w('Burial (13) - Satanic Upheaval', '2020', ['Apocalyptic Witchcraft'], ['Black Metal'], R),
+    ],
+    worksTotal: 257,
+  },
+  Portishead: {
+    wd: W('8f6bd1e4-fbe1-4f50-aa9b-94c450ec0f11', '6liAMWkVf5LH7YR9yfFy1Y', '2774', [['P136', 'Q1641839', 'experimental rock', 'rock experimental'], ['P264', 'Q1533331', 'Go! Discs', null, 'd348ac6f-0fb1-4d28-b95c-814eb9ad17ef'], ['P136', 'Q205560', 'trip hop'], ['P264', 'Q190585', 'Island Records', null, 'dfd92cd3-4888-46d2-b968-328b1feb2642'], ['P740', 'Q23154', 'Bristol'], ['P571', '1991-01-01T00:00:00Z']]),
+    dg: { id: 2774, name: 'Portishead', urls: [], members: [[22504, 'Geoff Barrow'], [91667, 'Beth Gibbons'], [206478, 'Adrian Utley']], groups: [], aliases: [] },
+    works: [
+      w('Portishead - Numb', '1994', ['Go! Beat', 'Go! Discs Ltd.'], ['Trip Hop'], E),
+      w('Portishead - Chase The Tear', '2011', ['XL Recordings', 'Optimum Mastering'], ['Krautrock', 'Electro', 'Downtempo'], E),
+      w('Portishead - Machine Gun', '2008', ['Island Records', 'Chrysalis Music Ltd.'], ['Leftfield', 'Trip Hop', 'Downtempo', 'Experimental'], E),
+      w('Portishead - Third', '2008', ['Island Records', 'Island Records Group'], ['Downtempo', 'Experimental'], E),
+      w('Portishead - Dummy', '1994', ['Go! Beat', 'Go! Discs Ltd.'], ['Trip Hop'], E),
+      w('Portishead - Glory Box', '1994', ['Go! Discs', 'Go! Discs Ltd.'], ['Trip Hop'], E),
+      w('Portishead - Portishead', '1997', ['Go! Beat', 'Chrysalis Music Ltd.'], ['Downtempo', 'Trip Hop'], E),
+    ],
+    worksTotal: 32,
+  },
+  'Massive Attack': {
+    wd: W('10adbe5e-a2c0-4bf3-8249-2b4cbf6e6ca8', '6FXMGgJwohJLUSr5nVlf9X', '4480', [['P136', 'Q205560', 'trip hop'], ['P264', 'Q183412', 'EMI', null, 'a8f3eb19-05db-4895-b1d2-7ec911022a5e'], ['P740', 'Q23154', 'Bristol'], ['P571', '1988-01-01T00:00:00Z']]),
+    dg: { id: 4480, name: 'Massive Attack', urls: [], members: [[151718, 'Robert Del Naja'], [457994, 'Grant Marshall'], [636544, 'Andrew Vowles'], [744490, 'Adrian Thaws']], groups: [], aliases: [] },
+    works: [
+      w('Massive Attack - Pieces', '2003', ['Virgin', 'Virgin Records America, Inc.'], ['Trip Hop', 'Dub', 'Downtempo'], E),
+      w('Massive Attack - Karmacoma EP', '1995', ['Wild Bunch Records', 'Circa'], ['Trip Hop', 'Downtempo'], E),
+      w('Massive Attack - Inertia Creeps', '1998', ['Circa', 'Virgin'], ['Downtempo', 'Trip Hop'], E),
+      w("Massive Attack - Be Thankful For What You've Got", '1991', ['Virgin', 'Circa Records Ltd.'], ['Downtempo', 'Trip Hop', 'Soul'], E),
+      w('Massive Attack - Remix Volume 1', '1999', ['Moonraker'], ['Downtempo', 'Trip Hop'], E),
+      w('Massive Attack - Singles 90/98', '1998', ['Circa', 'Virgin'], ['Trip Hop', 'Downtempo'], E),
+      w('Massive Attack - Mezzanine (Sampler)', '1998', ['Circa', 'Circa Records'], ['Trip Hop', 'Downtempo'], E),
+    ],
+    worksTotal: 69,
+  },
+  'Joy Division': {
+    wd: W('9a58fda3-f4ed-4080-a3a5-f457aac9fcdd', '432R46LaYsJZV2Gmc4jUV5', '3898', [['P136', 'Q598929', 'post-punk'], ['P264', 'Q578943', 'Factory Records', null, 'a2faf590-58fc-4e9f-a85b-eaf6dc266317'], ['P740', 'Q47952', 'Salford'], ['P571', '1976-01-01T00:00:00Z']]),
+    dg: { id: 3898, name: 'Joy Division', urls: ['https://joydivisionvinyl.bandcamp.com'], members: [[33927, 'Stephen Morris'], [33928, 'Bernard Sumner'], [120532, 'Peter Hook'], [236149, 'Ian Curtis']], groups: [], aliases: [[310128, 'Warsaw (3)']] },
+    works: [
+      w('Joy Division - Joy', '1986', ['Stampa Alternativa'], ['New Wave', 'Punk', 'Post-Punk'], R),
+      w('Joy Division - Closer To The Unknown Treasures', '2011', ['Heart Of Darkness Records', 'Tuff Trade Ltd.'], ['New Wave'], R),
+      w('Joy Division - Candidate', undefined, ['Советские Грампластинки'], ['Indie Rock'], R),
+      w("Joy Division - She's Lost Control Again", undefined, ['буд кон'], ['Post-Punk'], R),
+      w('Joy Division - Chance (Atmosphere)', undefined, ['буд кон'], ['Post-Punk'], R),
+      w('Joy Division - Live At High Wycombe', '2007', ['Warner Bros. Records', 'Town Hall, High Wycombe'], ['New Wave', 'Post-Punk'], R),
+      w("Joy Division - She's Lost Control", '2009', ['Factory', 'Fractured Music'], ['Post-Punk'], R),
+      w('Joy Division - Dead Souls', undefined, ['буд кон'], ['Post-Punk'], R),
+    ],
+    worksTotal: 191,
+  },
+  'New Order': {
+    wd: W('f1106b17-dcbb-45f6-b938-199ccfab50cc', '0yNLKJebCb8Aueb54LYya3', '3909', [['P264', 'Q3414893', 'Qwest Records', null, '279669fd-fcd3-4d68-afa2-786b96e55de4'], ['P264', 'Q2400027', 'Factory Benelux', null, '477945ba-d0b6-41b4-8c0a-935344a6366c'], ['P136', 'Q2187392', 'alternative dance'], ['P136', 'Q1298934', 'synth-pop', 'synth pop'], ['P264', 'Q935090', 'London Records', null, '60a0dd34-2333-4679-9050-38c21f7bc616'], ['P136', 'Q598929', 'post-punk'], ['P264', 'Q578943', 'Factory Records', null, 'a2faf590-58fc-4e9f-a85b-eaf6dc266317'], ['P264', 'Q240804', 'Mute Records', null, 'e0b106a5-4add-4839-9e40-c192457e1bf8'], ['P136', 'Q187760', 'new wave'], ['P740', 'Q47952', 'Salford'], ['P571', '1980-01-01T00:00:00Z']]),
+    dg: { id: 3909, name: 'New Order', urls: ['https://neworder.bandcamp.com/music'], members: [[33927, 'Stephen Morris'], [33928, 'Bernard Sumner'], [120532, 'Peter Hook'], [156003, 'Gillian Gilbert']], groups: [], aliases: [[156001, 'Be Music']] },
+    works: [
+      w('New Order - 1981-1982', '1982', ['Factory (US)', 'Factory Communications Ltd.'], ['New Wave', 'Electro'], E),
+      w('New Order - Everythings Gone Green', '1981', ['Factory Benelux', "Harry's"], ['New Wave', 'Electro'], E),
+      w('New Order - Murder', '1984', ['Factory Benelux', 'Britannia Row Studios'], ['New Wave', 'Synth-pop'], E),
+      w("New Order - Procession / Everything's Gone Green", '1981', ['Factory', 'Factory Communications Ltd.'], ['New Wave'], E),
+      w('New Order - Be A Rebel', '2020', ['Mute', 'Mute Artists Ltd.'], ['Synth-pop'], E),
+      w('New Order - Singularity', '2016', ['Mute', 'Universal Music Publishing'], ['Alternative Rock', 'Electro', 'Minimal', 'Tech House'], E),
+      w('New Order - Touched By The Hand Of God', '1987', ['Factory', 'Factory Communications Ltd.'], ['Synth-pop', 'New Wave'], E),
+      w('New Order - Basement Tapes 80-84', '2005', ['Back To Zero', 'Western Works'], ['Alternative Rock', 'Post-Punk'], R),
+    ],
+    worksTotal: 190,
+  },
+  Kraftwerk: {
+    wd: W('5700dcd4-c139-4f31-aa3e-6382b9af9032', '0dmPX6ovclgOy8WWJaFEUU', '4654', [['P136', 'Q1298934', 'synth-pop', 'synth pop'], ['P264', 'Q1200368', 'Astralwerks'], ['P264', 'Q638610', 'Kling Klang Schallplatten', null, '142df2b2-07ea-43bd-9df9-4a2627ec6bb5'], ['P136', 'Q320592', 'Krautrock'], ['P136', 'Q217597', 'electro'], ['P264', 'Q183412', 'EMI'], ['P136', 'Q170611', 'techno'], ['P740', 'Q1718', 'Düsseldorf'], ['P571', '1961-01-01T00:00:00Z']]),
+    dg: { id: 4654, name: 'Kraftwerk', urls: ['https://soundcloud.com/kraftwerkofficial'], members: [[22862, 'Karl Bartos'], [37955, 'Michael Rother'], [92412, 'Ralf Hütter'], [364272, 'Wolfgang Flür'], [373381, 'Florian Schneider'], [388633, 'Klaus Dinger']], groups: [], aliases: [] },
+    works: [
+      w('Kraftwerk - Die Roboter', '1978', ['Kling Klang', 'EMI Electrola'], ['Electro'], E),
+      w('Kraftwerk - 3-D (1 2 3 4 5 6 7 8)', '2017', ['Parlophone', 'Kling Klang'], ['Electro'], E),
+      w('Kraftwerk - Neon Lights', '1978', ['Capitol Records', 'Capitol Records, Inc.'], ['Synth-pop'], E),
+      w('Kraftwerk - Computerwelt', '1982', ['Kling Klang', 'EMI Electrola'], ['Electro', 'Synth-pop'], E),
+      w('Kraftwerk - K4 (Bremen Radio 1971)', '2006', ['Not On Label (Kraftwerk)'], ['Psychedelic Rock', 'Avantgarde', 'Experimental'], R),
+      w('Kraftwerk - Lebendige Menschen', '1997', ['Kling Klang Clan'], ['Electro'], E),
+      w('Kraftwerk - Metropolis', '1978', ['Capitol Records', 'EMI-Odeon S.A.I.C.'], ['Synth-pop'], E),
+    ],
+    worksTotal: 190,
+  },
+  'Alice Coltrane': {
+    wd: W('d24fc285-7b2f-47da-8ac5-4070b08570b1', null, '42058', [['P264', 'Q1524530', 'Impulse!', 'Impulse! Records', '93c3b044-2b4e-4239-a73b-8fb76f3e6ca9'], ['P264', 'Q843402', 'Warner Bros. Records', null, 'c595c289-47ce-4fba-b999-b87503e8cb71'], ['P136', 'Q8341', 'jazz']]),
+    // MusicBrainz enlaza "Alice McLeod" (nombre de nacimiento); el alias "Alice Coltrane" es el bueno
+    dg: { id: 42058, name: 'Alice Coltrane', urls: ['https://alicecoltrane.bandcamp.com/'], members: [], groups: [[807099, 'Alice Coltrane With Strings'], [3577930, 'Alice Coltrane Quintet']], aliases: [[1904143, 'Alice Hagood'], [3021135, 'Alice McLeod'], [3993598, 'Turiyasangitananda']] },
+    real: { id: 3021135, name: 'Alice McLeod', aliases: [[42058, 'Alice Coltrane'], [1904143, 'Alice Hagood'], [2006244, 'Turiya Aparna']] },
+    works: [
+      w('Alice Coltrane - Translinear Light', '2004', ['Impulse!', 'Ocean Way Recording'], ['Space-Age', 'Modal'], J),
+      w('Alice Coltrane - Astral Meditations', '1999', ['Impulse!'], ['Free Jazz', 'Spiritual Jazz'], J),
+      w('Alice Coltrane - Huntington Ashram Monastery', '1969', ['Impulse!', 'ABC Records'], ['Post Bop', 'Spiritual Jazz'], J),
+      w('Alice Coltrane - Transcendence', '1977', ['Warner Bros. Records', 'Village Producers, Inc.'], ['Fusion', 'Religious', 'Free Improvisation'], J),
+      w('Alice Coltrane - Universal Consciousness', '1971', ['Impulse!', 'ABC Records'], ['Free Jazz', 'Spiritual Jazz'], J),
+      w('Alice Coltrane - Lord Of Lords', '1972', ['Impulse!', 'ABC Records'], ['Free Jazz', 'Avant-garde Jazz', 'Spiritual Jazz'], J),
+      w('Alice Coltrane - Eternity', '1976', ['Warner Bros. Records', 'Warner Bros. Records Inc.'], ['Fusion', 'Modal', 'Free Jazz'], J),
+      w('Alice Coltrane - A Monastic Trio', '1968', ['Impulse!', 'ABC Records'], ['Free Jazz', 'Spiritual Jazz'], J),
+      w('Alice Coltrane - Turiya Sings', '1982', ['Avatar Book Institute', 'Jowcol Music'], ['New Age', 'Modal', 'Religious'], E),
+    ],
+    worksTotal: 30,
+  },
+  'Pharoah Sanders': {
+    wd: W('b3a0912a-a62a-4388-9368-7cb21ed5caf9', '3JLUCojZaHrX2LaUkSj7Ud', '21147', [['P264', 'Q1275949', 'ESP-Disk', null, '8f200b94-5233-432a-9d7a-6347577dfc09'], ['P264', 'Q664167', 'Arista Records'], ['P136', 'Q211781', 'free jazz'], ['P264', 'Q193023', 'Capitol Records'], ['P136', 'Q8341', 'jazz']]),
+    dg: { id: 21147, name: 'Pharoah Sanders', urls: ['https://pharoahsanders.bandcamp.com/'], members: [], groups: [[995606, 'Pharoah Sanders Quintet'], [2803286, 'John Coltrane Orchestra']], aliases: [[268578, 'Little Rock']] },
+    works: [
+      w('Pharaoh Sanders* - Pharaoh', '1965', ["ESP-Disk'", 'United International'], ['Free Jazz'], J),
+      w('Pharoah Sanders - Tauhid / Jewels of Thought', '2015', ['Impulse!', 'Universal Music Group'], ['Free Jazz', 'Avant-garde Jazz', 'Soul-Jazz'], J),
+      w('Pharoah Sanders - Moon Child', '1990', ['Timeless', 'Studio Davout'], ['Free Jazz', 'Contemporary Jazz'], J),
+      w('Pharoah Sanders - Wisdom Through Music', '1973', ['Impulse!', 'ABC Records'], ['Free Jazz', 'Post Bop', 'Soul-Jazz'], J),
+      w('Pharoah Sanders - A Prayer Before Dawn', '1987', ['Theresa Records', 'Hyde Street Studios'], ['Soul-Jazz'], J),
+      w('Pharoah Sanders - Izipho Zam (My Gifts)', '1973', ['Strata-East', 'Dolphy Series'], ['Free Jazz', 'Spiritual Jazz'], J),
+      w('Pharoah Sanders - Black Unity', '1972', ['Impulse!', 'ABC Records'], ['Free Jazz', 'Spiritual Jazz'], J),
+      w('Pharoah Sanders - Thembi', '1971', ['Impulse!', 'ABC Records'], ['Free Jazz', 'Soul-Jazz', 'Spiritual Jazz'], J),
+      w('Pharoah Sanders - Karma', '1969', ['Impulse!', 'ABC Records'], ['Modal', 'Post Bop', 'Avant-garde Jazz', 'Free Jazz'], J),
+    ],
+    worksTotal: 66,
+  },
+  'Los Planetas': {
+    wd: W('6f28b158-4d1a-4f31-9339-7f381e3c4ee1', '0N1TIXCk9Q9JbEPXQDclEL', '575914', [['P264', 'Q330629', 'Sony Music', null, '9e6b4d7f-4958-4db7-8504-d89e315836af'], ['P136', 'Q183504', 'indie rock'], ['P740', 'Q8810', 'Granada'], ['P571', '1993-01-01T00:00:00Z']]),
+    dg: { id: 575914, name: 'Los Planetas', urls: ['https://open.spotify.com/artist/0N1TIXCk9Q9JbEPXQDclEL'], members: [[192815, 'Raúl Santos'], [958373, 'Eric Jiménez'], [958381, 'Florent Muñoz'], [1042012, 'J (12)']], groups: [], aliases: [] },
+    works: [
+      w('Los Planetas - Las Canciones Del Agua', '2022', ['El Ejército Rojo'], ['Indie Rock', 'Flamenco', 'Psychedelic Rock'], R),
+      w('Los Planetas - Segundo Premio', '1998', ['RCA', 'BMG España'], ['Indie Rock'], R),
+      w('Los Planetas - La Leyenda Del Espacio', '2007', ['SONY BMG Music Entertainment', 'RCA'], ['Alternative Rock', 'Space Rock', 'Post Rock'], R),
+      w('Los Planetas - [ Zona Temporalmente Autónoma ]', '2017', ['El Volcán Música', 'Música Solar, S.L.'], ['Psychedelic Rock', 'Indie Rock'], R),
+      w('Los Planetas - Super 8', '1994', ['RCA', 'BMG Ariola S.A.'], ['Power Pop', 'Indie Rock'], R),
+      w('Los Planetas - La Nueva Normalidad', '2021', ['El Ejército Rojo', 'El Refugio Antiaéreo'], ['Indie Rock'], R),
+      w('Los Planetas - Dobles Fatigas', '2015', ['El Segell Del Primavera', 'El Refugio Antiaéreo'], ['Noise', 'Indie Rock', 'Flamenco'], R),
+      w('Los Planetas - Medusa E.P.', '1993', ['Elefant Records', 'Estudio FJR'], ['Indie Rock'], R),
+    ],
+    worksTotal: 39,
+  },
+  'Rosalía': {
+    wd: W('25f3abd9-63b5-471a-bd25-feb9672dfa11', '7ltDVBr6mKbRvohxheJ9h1', '5648334', [['P136', 'Q85775929', 'Latin R&B'], ['P136', 'Q25094849', 'art pop'], ['P264', 'Q9366777', 'Universal Music Spain, S.L.'], ['P136', 'Q3053954', 'new flamenco', 'nuevo flamenco'], ['P136', 'Q547137', 'Latin pop'], ['P136', 'Q202930', 'reggaeton'], ['P264', 'Q183387', 'Columbia Records'], ['P136', 'Q9764', 'flamenco']]),
+    dg: { id: 5648334, name: 'Rosalía (3)', urls: ['https://open.spotify.com/artist/7ltDVBr6mKbRvohxheJ9h1?autoplay=true&v=A'], members: [], groups: [], aliases: [[7123404, 'Rosalía Vila Tobella']] },
+    works: [
+      w('Rosalía (3) - Motomami', '2022', ['Columbia', 'Sony Music'], ['Trap', 'Flamenco', 'Bachata', 'Reggaeton'], E),
+      w('Rosalía - El Folklore Americano', '1966', ['Zafiro', 'Zafiro, S.A.'], ['Vocal'], P),
+      w('Rosalía (3) - Lux', '2025', ['Columbia', 'Sony Music'], ['Latin Pop', 'Alt-Pop'], E),
+      w('Rosalía (3) - Malamente', '2018', ['Sony Music', 'Sony Music Entertainment España, S.L.'], ['Flamenco', 'Alt-Pop'], P),
+      w('Rosalía - Un Eterno Amor / Palabras', '1968', ['Zafiro'], [], P),
+      w('Rosalía (3) - El Mal Querer', '2018', ['Sony Music', 'Sony Music Entertainment España, S.L.'], ['Flamenco', 'Alt-Pop'], E),
+      w('Rosalía (3) - Los Ángeles', '2017', ['Universal', 'Universal Music Spain S.L.'], ['Flamenco'], 'Folk, World, & Country'),
+      w('Lisa (154) feat. Rosalía (3) - New Woman', '2024', ['RCA', 'LLOUD Co.'], ['Pop Rap'], 'Hip Hop'),
+    ],
+    worksTotal: 40,
+  },
+};
+
+writeFileSync(new URL('./fixtures2.json', import.meta.url), JSON.stringify(fx));
+console.log('fixtures2:', Object.keys(fx).length);
